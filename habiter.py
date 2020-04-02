@@ -6,12 +6,12 @@ import random
 
 start = 1
 args = []
-
 args_i = 0
+yo momma
 
 print("Welcome to Class Habit Tracker!!!")
 print("Enter your Name:")
-x= input()
+x = input()
 print('Hello',x,'!')
 
 def start():
@@ -26,7 +26,7 @@ def start():
 start()
 
 def create_account():
-    class accountCrt():
+    class creator():
         def __init__(self, name, username,  password, email): #make inputs
             self.name = name
             self.username = username
@@ -34,7 +34,7 @@ def create_account():
             self.email = email
             self.role = role
 
-            dictionary = [] # store in firebase
+            dictionary = []
             dictionary.append(self.name)
             dictionary.append(self.username)
             dictionary.append(self.password) #encrypting password?
@@ -44,7 +44,7 @@ def create_account():
     print("account created!")
 
 def login():
-    print("logging in...") #firebase.get(location) and manipulate the dta
+    print("logging in...")
     
 def create_class():
     global class_n
@@ -84,12 +84,6 @@ def class_join():
     itema = input()
     for class_v in class_p.items():
         if itema == class_v:
-            class inClass:
-                def __init__(self, name):
-                    self.classname = name
-                    self.memb = []    # creates a new empty list for each dog
-                def add_trick(self, memb):
-                    self.memb.append(memb) # make memb = to upon login > store this as firebase
             print("Class joined!")      
             class_nf +=-1       
         if itemh != class_k:
