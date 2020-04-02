@@ -16,6 +16,7 @@ print('Hello',x,'!')
 def start():
     global y
     if start == 1:
+        
         print("What do you want to do today "+ x + "?\n Type 'register' if you want to create an account.\n Type 'login' if you want to login into an account.\n Type 'create' if you want to create a class. \n Type 'join' if you want ot join a class.")
     else:
         print("What else do you want to do today "+ x + "?\n Type 'register' if you want to create an account.\n Type 'login' if you want to login into an account.\n Type 'create' if you want to create a class. \n Type 'join' if you want ot join a class.")
