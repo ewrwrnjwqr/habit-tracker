@@ -3,11 +3,12 @@ import random
 
 #firebase = firebase.FirebaseApplication('') 
 
+var =
 
 start = 1
 args = []
+
 args_i = 0
-yo momma
 
 print("Welcome to Class Habit Tracker!!!")
 print("Enter your Name:")
