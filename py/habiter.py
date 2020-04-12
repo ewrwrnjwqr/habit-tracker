@@ -1,17 +1,31 @@
-#from firebase import firebas
+#!/usr/bin/python3
 import random
+from firebase import Firebase
+
+config = {
+  "apiKey": "AIzaSyDkkiDWhsRhnTVGzAP38UmVVd-lCZkJkZ8",
+  "authDomain": "habit-tracking-dfbc2.firebaseapp.com",
+  "databaseURL": "https://habit-tracking-dfbc2.firebaseio.com/",
+  "storageBucket": "habit-tracking-dfbc2.appspot.com"
+}
+
+firebase = Firebase(config)
+
+db = firebase.database()
+
 
 #firebase = firebase.FirebaseApplication('') 
 
-
 start = 1
 args = []
-
+data = []
+un = 0
+unt = 0
 args_i = 0
 
 print("Welcome to Class Habit Tracker!!!")
 print("Enter your Name:")
-x= input()
+x = input()
 print('Hello',x,'!')
 
 def start():
@@ -21,30 +35,64 @@ def start():
         print("What do you want to do today "+ x + "?\n Type 'register' if you want to create an account.\n Type 'login' if you want to login into an account.\n Type 'create' if you want to create a class. \n Type 'join' if you want ot join a class.")
     else:
         print("What else do you want to do today "+ x + "?\n Type 'register' if you want to create an account.\n Type 'login' if you want to login into an account.\n Type 'create' if you want to create a class. \n Type 'join' if you want ot join a class.")
-    y= str(input()) #if already done
+    y= str(input())
 
 start()
 
-def create_account():
-    class accountCrt():
-        def __init__(self, name, username,  password, email): #make inputs
-            self.name = name
+data = []
+
+def creator():
+    global user
+    global data
+    class stack():
+
+        def __init__(self, username, name, password, email, role): 
             self.username = username
+            self.name = name
             self.password = password
             self.email = email
             self.role = role
 
-            dictionary = [] # store in firebase
-            dictionary.append(self.name)
-            dictionary.append(self.username)
-            dictionary.append(self.password) #encrypting password?
-            dictionary.append(self.email)
-            dictionary.append(self.role)
-            #firebase.post(location,dictionary) 
-    print("account created!")
-
+        @classmethod
+        def from_input(cls):
+            return cls(
+                data.append(input('Username: ')),
+                data.append(input('Name: ')), 
+                data.append(input('Password: ')),
+                data.append(input('Email: ')),
+                data.append(input('Role: ')),
+            )
+    user = stack.from_input()
+ 
+def getll():
+    global un
+    usernames = db.child("users").get()
+    for user in usernames.each():
+        if data[0] == user.val()[0]: 
+            pas = input("Username in use, choose new username: ")
+            for user in usernames.each():
+                if pas != user.val()[0]:
+                    data[0] = pas
+                    un +=1
+        else:
+            un +=1
+            #db.child("users").child(data[0]).child(1).update{1:pas} data isnt sent in this function     
+    
 def login():
-    print("logging in...") #firebase.get(location) and manipulate the dta
+    global unt
+    inuser = input("what's your username: ")
+    inpas = input("what's your password: ")
+    usernames = db.child("users").get()
+    for user in usernames.each():
+        if inuser == user.val()[0] and inpas == user.val()[2]:
+            if user.val()[4] == 1:
+                    print("Welcome Teacher,",user.val()[1])
+                    unt +=1 
+            else:
+                print("Welcome Student,",user.val()[1])
+                unt +=1 
+    if unt != 1:
+        print("Wrong username or password was entered.") 
     
 def create_class():
     global class_n
@@ -59,7 +107,7 @@ def create_class():
     class_p = {}
     class_n =[]
     for _ in range(0,7):
-        class_n.append(random.randint(0,9))
+        class_n.append(random.randint(0,9))n
     class_pw = ''.join(map(str, class_n)) 
     print("Your class code is: ",class_pw)
     class_p.update({itemtd:class_pw})
@@ -84,12 +132,6 @@ def class_join():
     itema = input()
     for class_v in class_p.items():
         if itema == class_v:
-            class inClass:
-                def __init__(self, name):
-                    self.classname = name
-                    self.memb = []    # creates a new empty list for each dog
-                def add_trick(self, memb):
-                    self.memb.append(memb) # make memb = to upon login > store this as firebase
             print("Class joined!")      
             class_nf +=-1       
         if itemh != class_k:
@@ -99,11 +141,18 @@ def class_join():
         class_join()
         
 if y == 'register':
-    args.append('register')
-    create_account()
+    args.append('create')
+    creator()
+    print(data)
+    while un == 0:
+        getll() 
+    db.child("users").child(data[0]).set(data)
+    print("account created!")
+    start()
 if y == 'login':
     args.append('login')
-    login()
+    while unt == 0:
+        login()
 if y == 'create':
     args.append('create')
     #if user == self.teacher:
@@ -111,11 +160,11 @@ if y == 'create':
     start()
     #else:
         #print("You are not a teacher")
-        #start()
-    
+        #start()  
 if y == 'join':
     args.append('join')
     class_join()
+    start()
     
 for i in range(0,len(args)): # smart code for adding args to y input and possible multi select html li or button?
     if y != args[i]:
