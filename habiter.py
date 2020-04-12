@@ -1,12 +1,24 @@
-#from firebase import firebas
+#!/usr/bin/python3
 import random
+from firebase import Firebase
+
+config = {
+  "apiKey": "AIzaSyDkkiDWhsRhnTVGzAP38UmVVd-lCZkJkZ8",
+  "authDomain": "habit-tracking-dfbc2.firebaseapp.com",
+  "databaseURL": "https://habit-tracking-dfbc2.firebaseio.com/",
+  "storageBucket": "habit-tracking-dfbc2.appspot.com"
+}
+
+firebase = Firebase(config)
+
+db = firebase.database()
+
 
 #firebase = firebase.FirebaseApplication('') 
 
-var =
-
 start = 1
 args = []
+data = []
 
 args_i = 0
 
@@ -22,28 +34,34 @@ def start():
         print("What do you want to do today "+ x + "?\n Type 'register' if you want to create an account.\n Type 'login' if you want to login into an account.\n Type 'create' if you want to create a class. \n Type 'join' if you want ot join a class.")
     else:
         print("What else do you want to do today "+ x + "?\n Type 'register' if you want to create an account.\n Type 'login' if you want to login into an account.\n Type 'create' if you want to create a class. \n Type 'join' if you want ot join a class.")
-    y= str(input()) #if already done
+    y= str(input())
 
 start()
 
-def create_account():
-    class creator():
-        def __init__(self, name, username,  password, email): #make inputs
+data = []
+
+def creator():
+    global user
+    global data
+    class stack():
+
+        def __init__(self, name, username, password, email, role): 
             self.name = name
             self.username = username
             self.password = password
             self.email = email
             self.role = role
 
-            dictionary = []
-            dictionary.append(self.name)
-            dictionary.append(self.username)
-            dictionary.append(self.password) #encrypting password?
-            dictionary.append(self.email)
-            dictionary.append(self.role)
-            #firebase.post(location,dictionary) 
-    print("account created!")
-
+        @classmethod
+        def from_input(cls):
+            return cls(
+                data.append(input('Name: ')),
+                data.append(input('Username: ')), 
+                data.append(input('Password: ')),
+                data.append(input('Email: ')),
+                data.append(input('Role: ')),
+            )
+    user = stack.from_input()
 def login():
     print("logging in...")
     
@@ -94,8 +112,10 @@ def class_join():
         class_join()
         
 if y == 'register':
-    args.append('register')
-    create_account()
+    creator()
+    print(data)
+    db.child("users").push(data)
+    print("account created!")
 if y == 'login':
     args.append('login')
     login()

@@ -12,7 +12,7 @@ function setup() {
     text('my habits')
     fill(0,142,153)
     text('my score')
-    fill()
+    fill(0,152,183)
     text('student ratings')
     fill()
     text('teacher score')
